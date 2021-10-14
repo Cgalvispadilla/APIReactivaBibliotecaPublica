@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Mono;
 
+
 @Service
 @Validated
 public class SaveResourceUseCase implements SaveResource {
@@ -21,8 +22,8 @@ public class SaveResourceUseCase implements SaveResource {
     @Override
     public Mono<ResourceDTO> apply(ResourceDTO resourceDTO) {
         return resourceRepository
-                .save(mapperUtils
-                        .mapperToResource().apply(resourceDTO)
-                );
+                .save(mapperUtils.mapperToResource().apply(resourceDTO))
+                .thenReturn(resourceDTO);
     }
 }
+
