@@ -1,6 +1,7 @@
 package com.sofkau.apibibliotecareactiva.routers;
 
 import com.sofkau.apibibliotecareactiva.models.ResourceDTO;
+import com.sofkau.apibibliotecareactiva.usecases.DeleteResourceUseCase;
 import com.sofkau.apibibliotecareactiva.usecases.ListResourceUseCase;
 import com.sofkau.apibibliotecareactiva.usecases.SaveResourceUseCase;
 import com.sofkau.apibibliotecareactiva.usecases.UpdateResourceUseCase;
@@ -54,6 +55,16 @@ public class ResourceRouter {
                         .and(accept(MediaType.APPLICATION_JSON)), request -> request
                         .bodyToMono(ResourceDTO.class)
                         .flatMap(executor)
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> delete(DeleteResourceUseCase deleteResourceUseCase) {
+        return route(
+                DELETE("/recursos/eliminar/{id}").and(accept(MediaType.APPLICATION_JSON)),
+                request -> ServerResponse.accepted()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(deleteResourceUseCase.apply(request.pathVariable("id")), Void.class))
         );
     }
 }
