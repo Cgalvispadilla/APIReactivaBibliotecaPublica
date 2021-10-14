@@ -1,14 +1,28 @@
 package com.sofkau.apibibliotecareactiva.usecases;
 
+import com.sofkau.apibibliotecareactiva.collections.Resource;
 import com.sofkau.apibibliotecareactiva.models.ResourceDTO;
 import com.sofkau.apibibliotecareactiva.repositories.ResourceRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Mono;
 
-/* public class SaveResourceUseCase implements SaveResource{
+@Service
+@Validated
+public class SaveResourceUseCase implements SaveResource {
     private final ResourceRepository resourceRepository;
-    private final
+    private final MapperUtils mapperUtils;
+
+    public SaveResourceUseCase(ResourceRepository resourceRepository, MapperUtils mapperUtils) {
+        this.resourceRepository = resourceRepository;
+        this.mapperUtils = mapperUtils;
+    }
+
     @Override
     public Mono<ResourceDTO> apply(ResourceDTO resourceDTO) {
-        return null;
+        return resourceRepository
+                .save(mapperUtils
+                        .mapperToResource().apply(resourceDTO)
+                );
     }
-}*/
+}
