@@ -23,7 +23,7 @@ public class UpdateResourceUseCase implements SaveResource {
     public Mono<ResourceDTO> apply(ResourceDTO resourceDTO) {
         Objects.requireNonNull(resourceDTO.getId(), "El id del recurso es requerido");
         return resourceRepository.save(mapperUtils.mapperToResource().apply(resourceDTO))
-                .thenReturn(resourceDTO);
+                .map(resource -> mapperUtils.mapEntityToResource().apply(resource));
     }
 }
 

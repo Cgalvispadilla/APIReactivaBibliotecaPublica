@@ -1,6 +1,5 @@
 package com.sofkau.apibibliotecareactiva.usecases;
 
-import com.sofkau.apibibliotecareactiva.collections.Resource;
 import com.sofkau.apibibliotecareactiva.models.ResourceDTO;
 import com.sofkau.apibibliotecareactiva.repositories.ResourceRepository;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,7 @@ public class SaveResourceUseCase implements SaveResource {
     public Mono<ResourceDTO> apply(ResourceDTO resourceDTO) {
         return resourceRepository
                 .save(mapperUtils.mapperToResource().apply(resourceDTO))
-                .thenReturn(resourceDTO);
+                .map(resource -> mapperUtils.mapEntityToResource().apply(resource));
     }
 }
 
