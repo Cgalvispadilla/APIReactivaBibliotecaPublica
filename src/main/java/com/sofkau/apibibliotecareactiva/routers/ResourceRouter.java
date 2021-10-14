@@ -3,6 +3,7 @@ package com.sofkau.apibibliotecareactiva.routers;
 import com.sofkau.apibibliotecareactiva.models.ResourceDTO;
 import com.sofkau.apibibliotecareactiva.usecases.ListResourceUseCase;
 import com.sofkau.apibibliotecareactiva.usecases.SaveResourceUseCase;
+import com.sofkau.apibibliotecareactiva.usecases.UpdateResourceUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -38,6 +39,21 @@ public class ResourceRouter {
         return route(
                 POST("/recursos/agregar").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(ResourceDTO.class).flatMap(executor)
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> update(UpdateResourceUseCase updateResourceUseCase) {
+        Function<ResourceDTO, Mono<ServerResponse>> executor = resourceDTO -> updateResourceUseCase.apply(resourceDTO)
+                .flatMap(result -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue(result));
+
+        return route(
+                PUT("/recursos/editar")
+                        .and(accept(MediaType.APPLICATION_JSON)), request -> request
+                        .bodyToMono(ResourceDTO.class)
+                        .flatMap(executor)
         );
     }
 }
