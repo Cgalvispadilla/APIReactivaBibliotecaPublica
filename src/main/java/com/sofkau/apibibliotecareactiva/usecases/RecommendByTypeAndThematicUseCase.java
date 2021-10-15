@@ -24,6 +24,6 @@ public class RecommendByTypeAndThematicUseCase implements RecommendByTypeAndThem
     public Flux<ResourceDTO> get(String type, String thematic) {
         Objects.requireNonNull(type, "el tipo no puede esta vacio");
         Objects.requireNonNull(thematic, "la tematica no puede esta vacia");
-        return resourceRepository.findAllByTypeAndThematic(type, thematic).map(mapperUtils.mapEntityToResource());
+        return resourceRepository.findAllByTypeAndThematic(type, thematic).map(mapperUtils.mapEntityToResource()).distinct();
     }
 }

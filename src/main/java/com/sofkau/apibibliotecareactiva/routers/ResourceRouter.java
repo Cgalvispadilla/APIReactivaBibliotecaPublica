@@ -109,4 +109,14 @@ public class ResourceRouter {
                         ).onErrorResume((Error) -> ServerResponse.badRequest().build())
         );
     }
+    @Bean
+    public RouterFunction<ServerResponse> recommendByTypeAndThematic(RecommendByTypeAndThematicUseCase recommendByTypeAndThematicUseCase) {
+        return route(
+                GET("/recursos/recomendarxtipoxtema/{tipo}/{tema}"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(recommendByTypeAndThematicUseCase.get(request.pathVariable("tipo"), request.pathVariable("tema")), ResourceDTO.class)
+                        ).onErrorResume((Error) -> ServerResponse.badRequest().build())
+        );
+    }
 }
