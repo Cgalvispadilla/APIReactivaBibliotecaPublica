@@ -80,11 +80,21 @@ public class ResourceRouter {
     @Bean
     public RouterFunction<ServerResponse> lend(LendUseCase lendUseCase) {
         return route(
-                POST("/recursos/prestar/{id}"),
+                PUT("/recursos/prestar/{id}"),
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(lendUseCase.apply(request.pathVariable("id")), String.class))
                         .onErrorResume((error) -> ServerResponse.badRequest().build())
+        );
+    }
+    @Bean
+    public RouterFunction<ServerResponse> recommendByThematic(RecommendByThematicUseCase recommendByThematicUseCase) {
+        return route(
+                GET("/recursos/recomendar/{tema}"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(recommendByThematicUseCase.get(request.pathVariable("tema")), ResourceDTO.class)
+                        ).onErrorResume((Error) -> ServerResponse.badRequest().build())
         );
     }
 }
