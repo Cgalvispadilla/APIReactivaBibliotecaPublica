@@ -71,9 +71,20 @@ public class ResourceRouter {
                 GET("/recursos/disponibilidad/{id}"),
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(BodyInserters.fromPublisher(chechAvailabilityUseCase.apply(request.pathVariable("id")),String.class))
+                        .body(BodyInserters.fromPublisher(chechAvailabilityUseCase.apply(request.pathVariable("id")), String.class)
+                        ).onErrorResume((Error)->ServerResponse.badRequest().build())
 
         );
     }
 
+    @Bean
+    public RouterFunction<ServerResponse> lend(LendUseCase lendUseCase) {
+        return route(
+                POST("/recursos/prestar/{id}"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(lendUseCase.apply(request.pathVariable("id")), String.class))
+                        .onErrorResume((error) -> ServerResponse.badRequest().build())
+        );
+    }
 }
