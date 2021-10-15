@@ -11,4 +11,5 @@ import java.util.List;
 public interface ResourceRepository extends ReactiveCrudRepository<Resource, String> {
     Flux<Resource> findAllByType(final String type);
     Flux<Resource> findAllByThematic(final String thematic);
+    Flux<Resource> findAllByTypeAndThematic (final String type, final String thematic);
 }

@@ -72,7 +72,7 @@ public class ResourceRouter {
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(chechAvailabilityUseCase.apply(request.pathVariable("id")), String.class)
-                        ).onErrorResume((Error)->ServerResponse.badRequest().build())
+                        ).onErrorResume((Error) -> ServerResponse.badRequest().build())
 
         );
     }
@@ -87,13 +87,25 @@ public class ResourceRouter {
                         .onErrorResume((error) -> ServerResponse.badRequest().build())
         );
     }
+
     @Bean
     public RouterFunction<ServerResponse> recommendByThematic(RecommendByThematicUseCase recommendByThematicUseCase) {
         return route(
-                GET("/recursos/recomendar/{tema}"),
+                GET("/recursos/recomendarxtema/{tema}"),
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(recommendByThematicUseCase.get(request.pathVariable("tema")), ResourceDTO.class)
+                        ).onErrorResume((Error) -> ServerResponse.badRequest().build())
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> recommendByType(RecommendByTypeUseCase recommendByTypeUseCase) {
+        return route(
+                GET("/recursos/recomendarxtipo/{tipo}"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(recommendByTypeUseCase.get(request.pathVariable("tipo")), ResourceDTO.class)
                         ).onErrorResume((Error) -> ServerResponse.badRequest().build())
         );
     }
