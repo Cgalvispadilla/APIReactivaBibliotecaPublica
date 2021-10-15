@@ -119,4 +119,14 @@ public class ResourceRouter {
                         ).onErrorResume((Error) -> ServerResponse.badRequest().build())
         );
     }
+    @Bean
+    public RouterFunction<ServerResponse> returnResource(ReturnResourceUseCase returnResourceUseCase) {
+        return route(
+                PUT("/recursos/devolver/{id}"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(returnResourceUseCase.apply(request.pathVariable("id")), String.class))
+                        .onErrorResume((error) -> ServerResponse.badRequest().build())
+        );
+    }
 }
