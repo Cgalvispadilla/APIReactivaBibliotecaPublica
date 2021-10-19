@@ -12,10 +12,10 @@ import java.util.function.Supplier;
 
 @Service
 @Validated
-public class ChechAvailabilityUseCase implements Function<String, Mono<String>> {
+public class CheckAvailabilityUseCase implements Function<String, Mono<String>> {
     private final ResourceRepository resourceRepository;
 
-    public ChechAvailabilityUseCase(ResourceRepository resourceRepository) {
+    public CheckAvailabilityUseCase(ResourceRepository resourceRepository) {
         this.resourceRepository = resourceRepository;
     }
 
